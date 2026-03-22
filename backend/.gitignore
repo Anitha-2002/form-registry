@@ -2,3 +2,12 @@
 .env
 .env.local
 .env.*.local
+
+# Python bytecode / cache (never commit — regenerated on run)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local virtualenv (if created inside backend/)
+venv/
+.venv/
