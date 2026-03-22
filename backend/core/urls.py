@@ -4,15 +4,9 @@ from django.urls import path, include
 urlpatterns = [
     path("admin/", admin.site.urls),
 
-    # Signage APIs
+    # Signage APIs (includes requirement document uploads)
     path(
         "api/signage/",
         include(("apps.signage.urls", "signage"), namespace="signage"),
-    ),
-
-    # Document APIs
-    path(
-        "api/documents/",
-        include(("apps.documents.urls", "documents"), namespace="documents"),
     ),
 ]
