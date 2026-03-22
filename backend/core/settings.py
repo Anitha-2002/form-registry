@@ -1,15 +1,33 @@
+import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env")
+
+
+def _env_bool(key: str, default: bool = False) -> bool:
+    value = os.getenv(key)
+    if value is None:
+        return default
+    return value.lower() in ("true", "1", "yes", "on")
+
+
+def _env_list(key: str, default: str = "") -> list[str]:
+    raw = os.getenv(key, default)
+    return [item.strip() for item in raw.split(",") if item.strip()]
+
 
 # ======================
 # SECURITY
 # ======================
-SECRET_KEY = "django-insecure-change-this-later"
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-change-this-later")
 
-DEBUG = True
+DEBUG = _env_bool("DEBUG", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = _env_list("ALLOWED_HOSTS", "localhost,127.0.0.1")
 
 # ======================
 # APPLICATIONS
@@ -75,11 +93,11 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "signage_db",
-        "USER": "postgres",
-        "PASSWORD": "postgres",  # change if needed
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": os.getenv("POSTGRES_DB") or os.getenv("DB_NAME", "signage_db"),
+        "USER": os.getenv("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "postgres"),
+        "HOST": os.getenv("POSTGRES_HOST", "localhost"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432"),
     }
 }
 
@@ -98,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # ======================
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "Asia/Kolkata"
+TIME_ZONE = os.getenv("TIME_ZONE", "Asia/Kolkata")
 
 USE_I18N = True
 USE_TZ = True
@@ -132,4 +150,11 @@ REST_FRAMEWORK = {
 # ======================
 # CORS (Frontend Access)
 # ======================
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = _env_bool("CORS_ALLOW_ALL_ORIGINS", True)
+
+CORS_ALLOWED_ORIGINS: list[str] = []
+if not CORS_ALLOW_ALL_ORIGINS:
+    CORS_ALLOWED_ORIGINS = _env_list(
+        "CORS_ALLOWED_ORIGINS",
+        "http://localhost:3000,http://127.0.0.1:3000",
+    )
