@@ -1,4 +1,5 @@
 import "./globals.css";
+import Providers from "@/app/providers";
 import Header from "@/shared/components/layout/Header";
 import Sidebar from "@/shared/components/layout/Sidebar";
 
@@ -10,13 +11,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex">
-        <Sidebar />
-        <div className="flex-1">
-          <Header />
-          <main className="p-6 bg-gray-50 min-h-screen text-ink-secondary">
-            {children}
-          </main>
-        </div>
+        <Providers>
+          <Sidebar />
+          <div className="flex-1">
+            <Header />
+            <main className="min-h-screen bg-gray-50 p-6 text-ink-secondary">
+              {children}
+            </main>
+          </div>
+        </Providers>
       </body>
     </html>
   );

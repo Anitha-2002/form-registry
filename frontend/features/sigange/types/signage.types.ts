@@ -22,6 +22,9 @@ export type RequirementGroup = {
 /** Top-level form category (e.g. Form 5, Form 5a, HRSA). */
 export type FormCategory = {
   id: string;
+  /** API `code` (e.g. "form 5", "form 5a"). */
+  code: string;
+  /** API `name` — stored as `title` for requirement copy/search. */
   title: string;
   groups: RequirementGroup[];
 };

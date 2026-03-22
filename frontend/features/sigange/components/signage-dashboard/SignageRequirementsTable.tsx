@@ -9,7 +9,7 @@ const STATUS_LABEL: Record<Requirement["status"], string> = {
 };
 
 type Row = {
-  categoryTitle: string;
+  categoryLabel: string;
   groupTitle: string;
   requirement: FormCategory["groups"][number]["requirements"][number];
 };
@@ -18,7 +18,9 @@ function flattenRows(categories: FormCategory[]): Row[] {
   return categories.flatMap((cat) =>
     cat.groups.flatMap((group) =>
       group.requirements.map((requirement) => ({
-        categoryTitle: cat.title,
+        categoryLabel: cat.code
+          ? `${cat.code} — ${cat.title}`
+          : cat.title,
         groupTitle: group.title,
         requirement,
       })),
@@ -54,10 +56,10 @@ export default function SignageRequirementsTable({
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
-          {rows.map(({ categoryTitle, groupTitle, requirement }) => (
+          {rows.map(({ categoryLabel, groupTitle, requirement }) => (
             <tr key={requirement.id} className="hover:bg-gray-50/80">
               <td className="align-top px-4 py-3 font-medium text-ink-primary">
-                {categoryTitle}
+                {categoryLabel}
               </td>
               <td className="align-top px-4 py-3 text-ink-secondary">
                 {groupTitle}

@@ -78,7 +78,8 @@ export function filterFormCategories(
               return false;
             }
             if (!q) return true;
-            const hay = `${cat.title} ${group.title} ${req.title}`.toLowerCase();
+            const hay =
+              `${cat.title} ${cat.code} ${group.title} ${req.title}`.toLowerCase();
             return hay.includes(q);
           });
           return { ...group, requirements };
@@ -87,5 +88,10 @@ export function filterFormCategories(
 
       return { ...cat, groups };
     })
-    .filter((cat) => cat.groups.length > 0);
+    .filter((cat) => {
+      if (cat.groups.length > 0) return true;
+      if (!q) return true;
+      const catHay = `${cat.title} ${cat.code}`.toLowerCase();
+      return catHay.includes(q);
+    });
 }
