@@ -33,7 +33,12 @@ export default function SignageCategoryAccordion({
           ▼
         </span>
         <div className="min-w-0 flex-1">
-          <p className="font-semibold text-ink-primary">{category.title}</p>
+          <p className="font-semibold text-ink-primary">
+            <span className="mr-2 inline-block rounded-md border border-surface-accent-border bg-surface-accent px-2 py-0.5 text-xs font-semibold tracking-wide text-ink-secondary">
+              {category.code || "—"}
+            </span>
+            <span>{category.title}</span>
+          </p>
           <p className="mt-0.5 text-sm text-ink-muted">
             <span>{total} requirements</span>
             <span className="mx-2 text-ink-muted/40">·</span>

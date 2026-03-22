@@ -95,7 +95,7 @@ export default function SignageToolbar({
           <option value="ALL">All Categories</option>
           {categories.map((c) => (
             <option key={c.id} value={c.id}>
-              {c.title}
+              {c.code ? `${c.code} — ${c.title}` : c.title}
             </option>
           ))}
         </select>

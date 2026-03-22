@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+
 import { NAV_ITEMS } from "@/shared/config/navigation";
 
 export default function Header() {
@@ -18,7 +19,7 @@ export default function Header() {
         <span aria-hidden>{activeNav?.icon}</span>
         {title}
       </h1>
-      <div className="text-sm text-ink-secondary">👤 Admin</div>
+      <div className="text-sm text-ink-secondary">👤 Guest</div>
     </div>
   );
 }
